@@ -25,3 +25,9 @@ __pycache__/
 .env
 export.bat
 export.sh
+
+# Node.js dependencies
+node_modules/
+
+# Dependency lock
+package-lock.json

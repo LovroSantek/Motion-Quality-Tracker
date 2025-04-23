@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Example page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 0.9s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+
+    <!-- Naslov gore -->
+    <header class="pt-8 pb-4">
+        <h1 class="text-5xl font-extrabold text-black-700 text-center">Example page</h1>
+    </header>
+
+    <!-- Glavni sadržaj odmah ispod naslova -->
+    <main class="flex-1 flex flex-col items-center pt-24">
+        <div id="card" class="bg-white shadow-2xl rounded-3xl p-24 flex flex-col items-center transition-all duration-500 w-full max-w-6xl">
+            <h2 class="text-5xl font-bold mb-8 text-gray-800">Exercise Status</h2>
+            <div id="status" class="text-6xl font-bold">Waiting for data...</div>
+        </div>
+    </main>
+
+    <script>
+        const statusDiv = document.getElementById('status');
+        const cardDiv = document.getElementById('card');
+        
+        const socket = new WebSocket('ws://localhost:8080');
+
+        socket.addEventListener('message', function (event) {
+            console.log('Message from server:', event.data);
+            const message = event.data.trim().toLowerCase();
+
+            // Ukloni prethodnu animaciju
+            cardDiv.classList.remove('pulse');
+
+            if (message === "correct") {
+                statusDiv.innerText = "✔️ Correct form!";
+                cardDiv.className = "bg-green-200 shadow-2xl rounded-3xl p-16 flex flex-col items-center transition-all duration-500 w-full max-w-4xl";
+            } else if (message === "incorrect") {
+                statusDiv.innerText = "❌ Incorrect form!";
+                cardDiv.className = "bg-red-200 shadow-2xl rounded-3xl p-16 flex flex-col items-center transition-all duration-500 w-full max-w-4xl";
+            } else {
+                statusDiv.innerText = "❓ Unknown data!";
+                cardDiv.className = "bg-gray-200 shadow-2xl rounded-3xl p-16 flex flex-col items-center transition-all duration-500 w-full max-w-4xl";
+            }
+
+            // Trigger animaciju ponovno
+            void cardDiv.offsetWidth; // Force reflow
+            cardDiv.classList.add('pulse');
+        });
+    </script>
+</body>
+</html>
