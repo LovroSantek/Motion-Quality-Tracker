@@ -1,0 +1,27 @@
+# ESP-IDF build output
+build/
+sdkconfig
+sdkconfig.old
+CMakeCache.txt
+*.bin
+*.elf
+*.map
+
+# VS Code settings (ako koristiš)
+.vscode/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Logovi i terminal output
+*.log
+
+# Firmware
+*.hex
+*.uf2
+
+# IDF-related environment
+.env
+export.bat
+export.sh
