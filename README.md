@@ -4,13 +4,13 @@
 **Submission for**: IEEEDuino Contest 2025  
 **Date**: March 2025
 
-## 🚀 Overview
+## Overview
 
 **Motion Quality Tracker** is a wearable system designed to provide **real-time feedback** on exercise performance using motion analysis. It aims to help users perform exercises with correct form, minimizing injury risks and maximizing training efficiency. The solution leverages embedded AI for instant evaluation of movement quality.
 
 ---
 
-## 🧠 Problem Statement
+## Problem Statement
 
 Incorrect exercise technique is a widespread issue affecting:
 - Beginners: leading to poor results.
@@ -21,19 +21,19 @@ Traditional supervision is costly and time-consuming. There’s a need for **ind
 
 ---
 
-## 💡 Solution
+## Solution
 
 A compact wearable device that includes:
 - **IMU sensor**: Collects movement data (acceleration + angular velocity).
 - **ESP32 microcontroller**: Processes sensor data and runs on-device AI inference.
 - **AI Model (TensorFlow Lite / LiteRT)**: Classifies motion patterns.
-- **Wireless communication**: Integration with a mobile or web app.
+- **Wireless communication**: Integration with a web app.
 - **3D printed case**: Lightweight and body-attachable.
 - **Battery-powered (Li-ion + USB-C charging)**.
 
 ---
 
-## 🔧 Hardware Components
+## Hardware Components
 
 | Component                | Quantity | Price    | Link |
 |-------------------------|----------|----------|------|
@@ -47,24 +47,24 @@ A compact wearable device that includes:
 
 ---
 
-## 📐 System Architecture
+## System Architecture
 
 - **Sensor**: IMU (Accelerometer + Gyroscope) via SPI
-- **Controller**: ESP32 (Wi-Fi/Bluetooth)
+- **Controller**: ESP32 (Wi-Fi/MQTT)
 - **Power**: Li-ion battery + BQ24295 charger
 - **Software**: EdgeImpulse for data collection, LiteRT for inference
 - **App**: Mobile/Web integration for feedback display
 
 ---
 
-## 🧰 Software Design
+## Software Design
 
 Structured in modular layers:
 
 1. **Hardware Abstraction Layer (HAL)** – SPI interface, power management  
 2. **Data Acquisition Module** – Gathers IMU data  
 3. **AI Inference Module** – Real-time classification using LiteRT  
-4. **Communication Module** – BLE/Wi-Fi data transmission  
+4. **Communication Module** – MQTT data transmission  
 5. **FreeRTOS** – Task management and scheduling
 
 **Flowchart:**
@@ -75,7 +75,7 @@ Structured in modular layers:
 
 ---
 
-## ✅ Validation Plan
+## Validation Plan
 
 - **Accuracy Testing**: Track model performance on specific exercises like squats.
 - **User Trials**: Collect samples from participants doing both correct and incorrect movements.
@@ -84,7 +84,7 @@ Structured in modular layers:
 
 ---
 
-## 🌐 Links
+## Links
 
 - [EdgeImpulse Studio](https://studio.edgeimpulse.com/)
 - [LiteRT (Google Edge AI)](https://ai.google.dev/edge/litert)
@@ -92,14 +92,14 @@ Structured in modular layers:
 
 ---
 
-## 📦 Enclosure
+## Enclosure
 
 Custom 3D printed case to house all components and mount on the body safely and comfortably.
 The case was modeled in Fusion360.
 
 ---
 
-## 🙌 Acknowledgements
+## Acknowledgements
 
 Thanks to all colleagues who participated in data collection for model training.
 
