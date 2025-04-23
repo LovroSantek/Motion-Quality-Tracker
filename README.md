@@ -2,7 +2,7 @@
 
 **Author**: Lovro Šantek  
 **Submission for**: IEEEDuino Contest 2025  
-**Date**: March 2025
+**Date**: May 2025
 
 ## Overview
 
