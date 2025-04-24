@@ -31,3 +31,9 @@ node_modules/
 
 # Dependency lock
 package-lock.json
+
+# Edge impulse .gitignore
+*.DS_Store
+edge-impulse-sdk/
+model-parameters/
+tflite-model/
