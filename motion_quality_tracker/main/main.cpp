@@ -27,9 +27,6 @@
 
 #include "edge-impulse-sdk/classifier/ei_run_classifier.h"
 
-#include "sdkconfig.h"
-#include "esp_idf_version.h"
-
 /* Adjust based on the Wi-Fi the computer is connected to.*/
 //--------------------------------------------------------
 #define WIFI_SSID "Batonga Wi-Fi"
@@ -90,7 +87,7 @@ extern "C" int app_main()
     wifi_init_and_start_mqtt(WIFI_SSID, WIFI_PASS, MQTT_BROKER_URI);
     ei_sleep(2000);
 
-    ei_impulse_result_t result = { nullptr };
+    ei_impulse_result_t result = {nullptr};
 
     ei_printf("Edge Impulse standalone inferencing (Espressif ESP32)\n");
 
