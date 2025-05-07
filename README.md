@@ -71,6 +71,20 @@ Structured in modular layers:
 4. Send Output to an App
 
 ---
+### Feedback Screens WebPage
+
+Below are examples of how the user interface provides feedback based on exercise quality.
+
+<p align="center">
+  <img src="Pictures/Correct squat screen.png" alt="Correct Exercise" width="45%" />
+  <img src="Pictures/Incorrect squat screen.png" alt="Incorrect Exercise" width="45%" />
+</p>
+
+<p align="center">
+  <em>Left: Proper squat form detected and confirmed • Right: User performed a squat with incorrect form </em>
+</p>
+
+---
 
 ## Links
 
@@ -84,7 +98,11 @@ Structured in modular layers:
 Custom 3D printed case to house all components and mount on the body safely and comfortably.
 The case was modeled in [Fusion360](https://www.autodesk.com/products/fusion-360).
 
-![Enclosure](Pictures/Sideview.png)
+<p align="center">
+  <img src="Pictures/Sideview.png" alt="Side view" width="45%" />
+  <img src="Pictures/Insideview.png" alt="Inside view" width="45%" />
+</p>
+
 
 ---
 
