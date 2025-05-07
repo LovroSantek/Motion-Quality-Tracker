@@ -74,9 +74,8 @@ Structured in modular layers:
 
 ## Links
 
-- [EdgeImpulse Studio](https://studio.edgeimpulse.com/)
-- [LiteRT (Google Edge AI)](https://ai.google.dev/edge/litert)
-- [FreeRTOS](https://www.freertos.org/)
+- [EdgeImpulse Studio private project](https://studio.edgeimpulse.com/studio/684917)
+- [Repo with MQTT setup instructions](https://github.com/LovroSantek/MQTT-webpage-example)
 
 ---
 
