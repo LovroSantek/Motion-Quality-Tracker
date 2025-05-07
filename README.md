@@ -1,6 +1,6 @@
 # Motion Quality Tracker
 
-**Author**: Lovro Šantek
+**Author**: Lovro Šantek, May 2025.
 
 ## Overview
 
@@ -63,7 +63,6 @@ Structured in modular layers:
 2. **Data Acquisition Module** – Gathers IMU data  
 3. **AI Inference Module** – Real-time classification using LiteRT  
 4. **Communication Module** – MQTT data transmission  
-5. **FreeRTOS** – Task management and scheduling
 
 **Flowchart:**
 1. Initialize System  
