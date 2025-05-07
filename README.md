@@ -83,7 +83,10 @@ Structured in modular layers:
 ## Enclosure
 
 Custom 3D printed case to house all components and mount on the body safely and comfortably.
-The case was modeled in [Fusion360](https://www.autodesk.com/products/fusion-360).
+The case was modeled in [Fusion360](https://www.autodesk.com/products/fusion-360).  
+Sideview of an enclosure:
+
+![Enclosure](Pictures/Sideview.png)
 
 ---
 
