@@ -20,7 +20,7 @@
 
     <!-- Naslov gore -->
     <header class="pt-8 pb-4">
-        <h1 class="text-5xl font-extrabold text-black-700 text-center">Example page</h1>
+        <h1 class="text-6xl font-extrabold text-black-700 text-center">Squats Quality Tracker</h1>
     </header>
 
     <!-- Glavni sadržaj odmah ispod naslova -->
@@ -39,27 +39,27 @@
 
         socket.addEventListener('message', function (event) {
             console.log('Message from server:', event.data);
-            const message = event.data.trim().toLowerCase();
+            const message = event.data.trim();
 
             // Ukloni prethodnu animaciju
             cardDiv.classList.remove('pulse');
 
-            if (message === "correct") {
+            if (message === "Correct Squat") {
                 statusDiv.innerText = "✔️ Correct form!";
-                cardDiv.className = "bg-green-200 shadow-2xl rounded-3xl p-16 flex flex-col items-center transition-all duration-500 w-full max-w-4xl";
-            } else if (message === "incorrect") {
+                cardDiv.className = "bg-green-200 shadow-2xl rounded-3xl p-24 flex flex-col items-center transition-all duration-500 w-full max-w-6xl";
+            } else if (message === "Incorrect Squat") {
                 statusDiv.innerText = "❌ Incorrect form!";
-                cardDiv.className = "bg-red-200 shadow-2xl rounded-3xl p-16 flex flex-col items-center transition-all duration-500 w-full max-w-4xl";
-            } else if (message === "too_fast") {
-                statusDiv.innerText = "❌ Too fast!";
-                cardDiv.className = "bg-red-200 shadow-2xl rounded-3xl p-16 flex flex-col items-center transition-all duration-500 w-full max-w-4xl";
-            }else {
+                cardDiv.className = "bg-red-200 shadow-2xl rounded-3xl p-24 flex flex-col items-center transition-all duration-500 w-full max-w-6xl";
+            } else if (message === "Fast Squat") {
+                statusDiv.innerText = "🚀 Too fast!";
+                cardDiv.className = "bg-red-200 shadow-2xl rounded-3xl p-24 flex flex-col items-center transition-all duration-500 w-full max-w-6xl";
+            } else {
                 statusDiv.innerText = "❓ Unknown data!";
-                cardDiv.className = "bg-gray-200 shadow-2xl rounded-3xl p-16 flex flex-col items-center transition-all duration-500 w-full max-w-4xl";
+                cardDiv.className = "bg-gray-200 shadow-2xl rounded-3xl p-24 flex flex-col items-center transition-all duration-500 w-full max-w-6xl";
             }
 
             // Trigger animaciju ponovno
-            void cardDiv.offsetWidth; // Force reflow
+            void cardDiv.offsetWidth;
             cardDiv.classList.add('pulse');
         });
     </script>
