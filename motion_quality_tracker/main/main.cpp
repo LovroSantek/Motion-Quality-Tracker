@@ -34,31 +34,27 @@
 #define MQTT_BROKER_URI "mqtt://192.168.0.101:1883"
 //--------------------------------------------------------
 
-float features[EI_CLASSIFIER_DSP_INPUT_FRAME_SIZE] = {};
+#define DECISION_THRESHOLD (0.45f)
 
-void refill_features(){
+int raw_feature_get_data(size_t offset, size_t length, float *out_ptr) {
     for(int i = 0; i < EI_CLASSIFIER_RAW_SAMPLE_COUNT; i++)
     {
         float ax = IMU_read_accel(ACCEL_XOUT_H);
-        //float ay = IMU_read_accel(ACCEL_YOUT_H);
+        //float ay = IMU_read_accel(ACCEL_YOUT_H); //  Not used for this model
         float az = IMU_read_accel(ACCEL_ZOUT_H);
 
         float gx = IMU_read_gyro(GYRO_XOUT_H);
         float gy = IMU_read_gyro(GYRO_YOUT_H);
-        //float gz = IMU_read_gyro(GYRO_ZOUT_H);
+        //float gz = IMU_read_gyro(GYRO_ZOUT_H); //  Not used for this model
 
-        features[EI_CLASSIFIER_RAW_SAMPLES_PER_FRAME * i + 0] = ax;
-        features[EI_CLASSIFIER_RAW_SAMPLES_PER_FRAME * i + 1] = az;
-        features[EI_CLASSIFIER_RAW_SAMPLES_PER_FRAME * i + 2] = gx;
-        features[EI_CLASSIFIER_RAW_SAMPLES_PER_FRAME * i + 3] = gy;
+        out_ptr[EI_CLASSIFIER_RAW_SAMPLES_PER_FRAME * i + 0] = ax;
+        out_ptr[EI_CLASSIFIER_RAW_SAMPLES_PER_FRAME * i + 1] = az;
+        out_ptr[EI_CLASSIFIER_RAW_SAMPLES_PER_FRAME * i + 2] = gx;
+        out_ptr[EI_CLASSIFIER_RAW_SAMPLES_PER_FRAME * i + 3] = gy;
 
         ei_sleep((int)(1000 / EI_CLASSIFIER_FREQUENCY));
     }
-}
 
-int raw_feature_get_data(size_t offset, size_t length, float *out_ptr) {
-    refill_features();
-    memcpy(out_ptr, features + offset, length * sizeof(float));
     return 0;
 }
 
@@ -73,12 +69,15 @@ void print_inference_result(ei_impulse_result_t result) {
     */
 
     ei_printf("Predictions:\r\n");
-    for (uint16_t i = 0; i < EI_CLASSIFIER_LABEL_COUNT; i++) {
+    for (uint16_t i = 0; i < EI_CLASSIFIER_LABEL_COUNT; i++)
+    {
         ei_printf("  %s: ", ei_classifier_inferencing_categories[i]);
         ei_printf("%.5f\r\n", result.classification[i].value);
+        if(result.classification[i].value > DECISION_THRESHOLD)
+        {
+            mqtt_publish_exercise_result(ei_classifier_inferencing_categories[i]);
+        }
     }
-
-    mqtt_publish_exercise_result(true);
 
     // Print anomaly result (if it exists)
 #if EI_CLASSIFIER_HAS_ANOMALY == 1
@@ -96,20 +95,12 @@ extern "C" int app_main()
 
     ei_impulse_result_t result = {nullptr};
 
-    ei_printf("Edge Impulse standalone inferencing (Espressif ESP32)\n");
-
-    if (sizeof(features) / sizeof(float) != EI_CLASSIFIER_DSP_INPUT_FRAME_SIZE)
-    {
-        ei_printf("The size of your 'features' array is not correct. Expected %d items, but had %u\n",
-                EI_CLASSIFIER_DSP_INPUT_FRAME_SIZE, sizeof(features) / sizeof(float));
-        return 1;
-    }
+    ei_printf("Application satrted!\n");
 
     while (true)
     {
-        // the features are stored into flash, and we don't want to load everything into RAM
         signal_t features_signal;
-        features_signal.total_length = sizeof(features) / sizeof(features[0]);
+        features_signal.total_length = EI_CLASSIFIER_DSP_INPUT_FRAME_SIZE;
         features_signal.get_data = &raw_feature_get_data;
 
         // invoke the impulse
