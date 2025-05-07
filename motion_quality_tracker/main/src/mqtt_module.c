@@ -94,21 +94,34 @@ void wifi_init_and_start_mqtt(const char *ssid, const char *password, const char
     esp_mqtt_client_start(mqtt_client);
 }
 
-esp_err_t mqtt_publish_exercise_result(bool correct) {
+esp_err_t mqtt_publish_exercise_result(const char* category) {
     if (mqtt_client == NULL) {
         ESP_LOGE(TAG, "MQTT client is not initialized.");
         return ESP_FAIL;
     }
 
-    const char *msg = correct ? "correct" : "incorrect";
+    const char* ei_classifier_inferencing_categories[] = { "Correct Squat", "Fast Squat", "Incorrect Squat" };
 
-    int msg_id = esp_mqtt_client_publish(mqtt_client, RESULT_TOPIC, msg, 0, 1, 0);
+    bool is_valid = false;
+    for (int i = 0; i < sizeof(ei_classifier_inferencing_categories) / sizeof(ei_classifier_inferencing_categories[0]); i++) {
+        if (strcmp(category, ei_classifier_inferencing_categories[i]) == 0) {
+            is_valid = true;
+            break;
+        }
+    }
 
-    if (msg_id < 0) {
-        ESP_LOGE(TAG, "Failed to publish message: %s", msg);
+    if (!is_valid) {
+        esp_mqtt_client_publish(mqtt_client, RESULT_TOPIC, "unknown category", 0, 1, 0);
         return ESP_FAIL;
     }
 
-    ESP_LOGI(TAG, "Published message: %s (msg_id=%d)", msg, msg_id);
+    int msg_id = esp_mqtt_client_publish(mqtt_client, RESULT_TOPIC, category, 0, 1, 0);
+
+    if (msg_id < 0) {
+        ESP_LOGE(TAG, "Failed to publish message: %s", category);
+        return ESP_FAIL;
+    }
+
+    ESP_LOGI(TAG, "Published message: %s (msg_id=%d)", category, msg_id);
     return ESP_OK;
 }

@@ -27,16 +27,17 @@ void wifi_init_and_start_mqtt(const char *ssid, const char *password, const char
  * was performed correctly or incorrectly. The message is published to a
  * predefined topic.
  *
- * @param correct A boolean indicating exercise correctness.
- *                - true: exercise performed correctly
- *                - false: exercise performed incorrectly
+ * @param category A string indicating exercise status.
+ *                - Correct Squat
+ *                - Fast Squat
+ *                - Incorrect Squat
  *
  * @return
  *      - ESP_OK on success
  * @return
  *      - ESP_FAIL on publish error
  */
-esp_err_t mqtt_publish_exercise_result(bool correct);
+esp_err_t mqtt_publish_exercise_result(const char* category);
 
 #ifdef __cplusplus
 }
