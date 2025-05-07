@@ -40,12 +40,17 @@ void refill_features(){
     for(int i = 0; i < EI_CLASSIFIER_RAW_SAMPLE_COUNT; i++)
     {
         float ax = IMU_read_accel(ACCEL_XOUT_H);
-        float ay = IMU_read_accel(ACCEL_YOUT_H);
+        //float ay = IMU_read_accel(ACCEL_YOUT_H);
         float az = IMU_read_accel(ACCEL_ZOUT_H);
 
-        features[EI_CLASSIFIER_RAW_SAMPLES_PER_FRAME * i + 0] = ax; // EI_CLASSIFIER_RAW_SAMPLES_PER_FRAME needs to be tested when gyroscope data is used
-        features[EI_CLASSIFIER_RAW_SAMPLES_PER_FRAME * i + 1] = ay;
-        features[EI_CLASSIFIER_RAW_SAMPLES_PER_FRAME * i + 2] = az;
+        float gx = IMU_read_gyro(GYRO_XOUT_H);
+        float gy = IMU_read_gyro(GYRO_YOUT_H);
+        //float gz = IMU_read_gyro(GYRO_ZOUT_H);
+
+        features[EI_CLASSIFIER_RAW_SAMPLES_PER_FRAME * i + 0] = ax;
+        features[EI_CLASSIFIER_RAW_SAMPLES_PER_FRAME * i + 1] = az;
+        features[EI_CLASSIFIER_RAW_SAMPLES_PER_FRAME * i + 2] = gx;
+        features[EI_CLASSIFIER_RAW_SAMPLES_PER_FRAME * i + 3] = gy;
 
         ei_sleep((int)(1000 / EI_CLASSIFIER_FREQUENCY));
     }
@@ -72,6 +77,8 @@ void print_inference_result(ei_impulse_result_t result) {
         ei_printf("  %s: ", ei_classifier_inferencing_categories[i]);
         ei_printf("%.5f\r\n", result.classification[i].value);
     }
+
+    mqtt_publish_exercise_result(true);
 
     // Print anomaly result (if it exists)
 #if EI_CLASSIFIER_HAS_ANOMALY == 1
