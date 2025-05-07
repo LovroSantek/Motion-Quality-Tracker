@@ -42,22 +42,22 @@
 #include <stdint.h>
 #include "model_metadata.h"
 
-#include "tflite-model/tflite_learn_3_compiled.h"
+#include "tflite-model/tflite_learn_9_compiled.h"
 #include "edge-impulse-sdk/classifier/ei_model_types.h"
 #include "edge-impulse-sdk/classifier/inferencing_engines/engines.h"
 
-const char* ei_classifier_inferencing_categories[] = { "Idle", "Running", "Squat" };
+const char* ei_classifier_inferencing_categories[] = { "Correct Squat", "Fast Squat", "Incorrect Squat" };
 
-EI_CLASSIFIER_DSP_AXES_INDEX_TYPE ei_dsp_config_2_axes[] = { 0, 1, 2 };
-const uint32_t ei_dsp_config_2_axes_size = 3;
-ei_dsp_config_spectral_analysis_t ei_dsp_config_2 = {
-    2, // uint32_t blockId
+EI_CLASSIFIER_DSP_AXES_INDEX_TYPE ei_dsp_config_8_axes[] = { 0, 1, 2, 3 };
+const uint32_t ei_dsp_config_8_axes_size = 4;
+ei_dsp_config_spectral_analysis_t ei_dsp_config_8 = {
+    8, // uint32_t blockId
     4, // int implementationVersion
-    3, // int length of axes
+    4, // int length of axes
     1.0f, // float scale-axes
     1, // int input-decimation-ratio
-    "low", // select filter-type
-    4.0f, // float filter-cutoff
+    "none", // select filter-type
+    3.0f, // float filter-cutoff
     6, // int filter-order
     "FFT", // select analysis-type
     16, // int fft-length
@@ -73,30 +73,30 @@ ei_dsp_config_spectral_analysis_t ei_dsp_config_2 = {
 
 const uint8_t ei_dsp_blocks_size = 1;
 ei_model_dsp_t ei_dsp_blocks[ei_dsp_blocks_size] = {
-    { // DSP block 2
-        2,
-        18, // output size
+    { // DSP block 8
+        8,
+        52, // output size
         &extract_spectral_analysis_features, // DSP function pointer
-        (void*)&ei_dsp_config_2, // pointer to config struct
-        ei_dsp_config_2_axes, // array of offsets into the input stream, one for each axis
-        ei_dsp_config_2_axes_size, // number of axes
+        (void*)&ei_dsp_config_8, // pointer to config struct
+        ei_dsp_config_8_axes, // array of offsets into the input stream, one for each axis
+        ei_dsp_config_8_axes_size, // number of axes
         1, // version
         nullptr, // factory function
     }
 };
-const ei_config_tflite_eon_graph_t ei_config_tflite_graph_3 = {
+const ei_config_tflite_eon_graph_t ei_config_tflite_graph_9 = {
     .implementation_version = 1,
-    .model_init = &tflite_learn_3_init,
-    .model_invoke = &tflite_learn_3_invoke,
-    .model_reset = &tflite_learn_3_reset,
-    .model_input = &tflite_learn_3_input,
-    .model_output = &tflite_learn_3_output,
+    .model_init = &tflite_learn_9_init,
+    .model_invoke = &tflite_learn_9_invoke,
+    .model_reset = &tflite_learn_9_reset,
+    .model_input = &tflite_learn_9_input,
+    .model_output = &tflite_learn_9_output,
 };
 
-ei_learning_block_config_tflite_graph_t ei_learning_block_config_3 = {
+ei_learning_block_config_tflite_graph_t ei_learning_block_config_9 = {
     .implementation_version = 1,
     .classification_mode = EI_CLASSIFIER_CLASSIFICATION_MODE_CLASSIFICATION,
-    .block_id = 3,
+    .block_id = 9,
     .object_detection = 0,
     .object_detection_last_layer = EI_CLASSIFIER_LAST_LAYER_UNKNOWN,
     .output_data_tensor = 0,
@@ -105,21 +105,21 @@ ei_learning_block_config_tflite_graph_t ei_learning_block_config_3 = {
     .threshold = 0,
     .quantized = 1,
     .compiled = 1,
-    .graph_config = (void*)&ei_config_tflite_graph_3
+    .graph_config = (void*)&ei_config_tflite_graph_9
 };
 
 const uint8_t ei_learning_blocks_size = 1;
-const uint32_t ei_learning_block_3_inputs[1] = { 2 };
-const uint8_t ei_learning_block_3_inputs_size = 1;
+const uint32_t ei_learning_block_9_inputs[1] = { 8 };
+const uint8_t ei_learning_block_9_inputs_size = 1;
 const ei_learning_block_t ei_learning_blocks[ei_learning_blocks_size] = {
     {
-        3,
+        9,
         false,
         &run_nn_inference,
-        (void*)&ei_learning_block_config_3,
+        (void*)&ei_learning_block_config_9,
         EI_CLASSIFIER_IMAGE_SCALING_NONE,
-        ei_learning_block_3_inputs,
-        ei_learning_block_3_inputs_size,
+        ei_learning_block_9_inputs,
+        ei_learning_block_9_inputs_size,
         3
     },
 };
@@ -132,23 +132,23 @@ const ei_object_detection_nms_config_t ei_object_detection_nms = {
     0.2f  /* NMS IOU threshold */
 };
 
-const ei_impulse_t impulse_642332_0 = {
-    .project_id = 642332,
+const ei_impulse_t impulse_684917_0 = {
+    .project_id = 684917,
     .project_owner = "Lovro Šantek",
-    .project_name = "ESP32_IMU_Classifier",
-    .impulse_id = 1,
-    .impulse_name = "Impulse #1",
-    .deploy_version = 4,
+    .project_name = "Motion Quality Tracker",
+    .impulse_id = 2,
+    .impulse_name = "Impulse #2",
+    .deploy_version = 1,
 
-    .nn_input_frame_size = 18,
-    .raw_sample_count = 100,
-    .raw_samples_per_frame = 3,
-    .dsp_input_frame_size = 100 * 3,
+    .nn_input_frame_size = 52,
+    .raw_sample_count = 250,
+    .raw_samples_per_frame = 4,
+    .dsp_input_frame_size = 250 * 4,
     .input_width = 0,
     .input_height = 0,
     .input_frames = 0,
-    .interval_ms = 20,
-    .frequency = 50,
+    .interval_ms = 10,
+    .frequency = 100,
     .dsp_blocks_size = ei_dsp_blocks_size,
     .dsp_blocks = ei_dsp_blocks,
     
@@ -169,8 +169,8 @@ const ei_impulse_t impulse_642332_0 = {
     .inferencing_engine = EI_CLASSIFIER_TFLITE,
 
     .sensor = EI_CLASSIFIER_SENSOR_FUSION,
-    .fusion_string = "Accel X + Accel Y + Accel Z",
-    .slice_size = (100/4),
+    .fusion_string = "AccelX + AccelZ + GyroX + Gyroy",
+    .slice_size = (250/4),
     .slices_per_model_window = 4,
 
     .has_anomaly = EI_ANOMALY_TYPE_UNKNOWN,
@@ -179,7 +179,7 @@ const ei_impulse_t impulse_642332_0 = {
     .object_detection_nms = ei_object_detection_nms
 };
 
-ei_impulse_handle_t impulse_handle_642332_0 = ei_impulse_handle_t( &impulse_642332_0 );
-ei_impulse_handle_t& ei_default_impulse = impulse_handle_642332_0;
+ei_impulse_handle_t impulse_handle_684917_0 = ei_impulse_handle_t( &impulse_684917_0 );
+ei_impulse_handle_t& ei_default_impulse = impulse_handle_684917_0;
 
 #endif // _EI_CLASSIFIER_MODEL_VARIABLES_H_
