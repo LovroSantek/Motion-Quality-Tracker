@@ -1,8 +1,6 @@
 # Motion Quality Tracker
 
-**Author**: Lovro Šantek  
-**Submission for**: IEEEDuino Contest 2025  
-**Date**: May 2025
+**Author**: Lovro Šantek
 
 ## Overview
 
@@ -71,16 +69,7 @@ Structured in modular layers:
 1. Initialize System  
 2. Acquire IMU Data  
 3. Run AI Inference  
-4. Send Output to App
-
----
-
-## Validation Plan
-
-- **Accuracy Testing**: Track model performance on specific exercises like squats.
-- **User Trials**: Collect samples from participants doing both correct and incorrect movements.
-- **Performance Metrics**: Evaluate on-device model accuracy (target: >90%).
-- **Generalization**: Extend tests to other movements (e.g., tennis swing, soccer kick).
+4. Send Output to an App
 
 ---
 
@@ -95,12 +84,12 @@ Structured in modular layers:
 ## Enclosure
 
 Custom 3D printed case to house all components and mount on the body safely and comfortably.
-The case was modeled in Fusion360.
+The case was modeled in [Fusion360](https://www.autodesk.com/products/fusion-360).
 
 ---
 
 ## Acknowledgements
 
-Thanks to all colleagues who participated in data collection for model training.
+Thanks to everyone who participated in data collection for model training.
 
 ---
