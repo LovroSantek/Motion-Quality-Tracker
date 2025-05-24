@@ -100,7 +100,7 @@ esp_err_t mqtt_publish_exercise_result(const char* category) {
         return ESP_FAIL;
     }
 
-    const char* ei_classifier_inferencing_categories[] = { "Correct Squat", "Fast Squat", "Incorrect Squat" };
+    const char* ei_classifier_inferencing_categories[] = { "Correct Squat", "Fast Squat", "Idle", "Incorrect Squat" };
 
     bool is_valid = false;
     for (int i = 0; i < sizeof(ei_classifier_inferencing_categories) / sizeof(ei_classifier_inferencing_categories[0]); i++) {

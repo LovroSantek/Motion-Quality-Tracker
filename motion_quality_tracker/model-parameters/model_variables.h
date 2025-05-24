@@ -46,7 +46,7 @@
 #include "edge-impulse-sdk/classifier/ei_model_types.h"
 #include "edge-impulse-sdk/classifier/inferencing_engines/engines.h"
 
-const char* ei_classifier_inferencing_categories[] = { "Correct Squat", "Fast Squat", "Incorrect Squat" };
+const char* ei_classifier_inferencing_categories[] = { "Correct Squat", "Fast Squat", "Idle", "Incorrect Squat" };
 
 EI_CLASSIFIER_DSP_AXES_INDEX_TYPE ei_dsp_config_8_axes[] = { 0, 1, 2, 3 };
 const uint32_t ei_dsp_config_8_axes_size = 4;
@@ -54,20 +54,20 @@ ei_dsp_config_spectral_analysis_t ei_dsp_config_8 = {
     8, // uint32_t blockId
     4, // int implementationVersion
     4, // int length of axes
-    1.0f, // float scale-axes
-    1, // int input-decimation-ratio
-    "none", // select filter-type
-    3.0f, // float filter-cutoff
+    0.05f, // float scale-axes
+    10, // int input-decimation-ratio
+    "low", // select filter-type
+    2.9f, // float filter-cutoff
     6, // int filter-order
     "FFT", // select analysis-type
-    16, // int fft-length
+    64, // int fft-length
     3, // int spectral-peaks-count
     0.1f, // float spectral-peaks-threshold
     "0.1, 0.5, 1.0, 2.0, 5.0", // string spectral-power-edges
     true, // boolean do-log
-    true, // boolean do-fft-overlap
+    false, // boolean do-fft-overlap
     1, // int wavelet-level
-    "db4", // select wavelet
+    "rbio3.3", // select wavelet
     false // boolean extra-low-freq
 };
 
@@ -75,7 +75,7 @@ const uint8_t ei_dsp_blocks_size = 1;
 ei_model_dsp_t ei_dsp_blocks[ei_dsp_blocks_size] = {
     { // DSP block 8
         8,
-        52, // output size
+        96, // output size
         &extract_spectral_analysis_features, // DSP function pointer
         (void*)&ei_dsp_config_8, // pointer to config struct
         ei_dsp_config_8_axes, // array of offsets into the input stream, one for each axis
@@ -120,7 +120,7 @@ const ei_learning_block_t ei_learning_blocks[ei_learning_blocks_size] = {
         EI_CLASSIFIER_IMAGE_SCALING_NONE,
         ei_learning_block_9_inputs,
         ei_learning_block_9_inputs_size,
-        3
+        4
     },
 };
 
@@ -138,9 +138,9 @@ const ei_impulse_t impulse_684917_0 = {
     .project_name = "Motion Quality Tracker",
     .impulse_id = 2,
     .impulse_name = "Impulse #2",
-    .deploy_version = 1,
+    .deploy_version = 3,
 
-    .nn_input_frame_size = 52,
+    .nn_input_frame_size = 96,
     .raw_sample_count = 250,
     .raw_samples_per_frame = 4,
     .dsp_input_frame_size = 250 * 4,
@@ -159,7 +159,7 @@ const ei_impulse_t impulse_684917_0 = {
     .visual_ad_grid_size_x = 0,
     .visual_ad_grid_size_y = 0,
     
-    .tflite_output_features_count = 3,
+    .tflite_output_features_count = 4,
     .learning_blocks_size = ei_learning_blocks_size,
     .learning_blocks = ei_learning_blocks,
 
@@ -174,7 +174,7 @@ const ei_impulse_t impulse_684917_0 = {
     .slices_per_model_window = 4,
 
     .has_anomaly = EI_ANOMALY_TYPE_UNKNOWN,
-    .label_count = 3,
+    .label_count = 4,
     .categories = ei_classifier_inferencing_categories,
     .object_detection_nms = ei_object_detection_nms
 };
