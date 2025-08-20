@@ -29,9 +29,9 @@
 
 /* Adjust based on the Wi-Fi the computer is connected to.*/
 //--------------------------------------------------------
-#define WIFI_SSID "Batonga Wi-Fi"
-#define WIFI_PASS "77953162"
-#define MQTT_BROKER_URI "mqtt://192.168.0.101:1883"
+#define WIFI_SSID "Santek"
+#define WIFI_PASS "51903586768881504177"
+#define MQTT_BROKER_URI "mqtt://192.168.1.187:1883"
 //--------------------------------------------------------
 
 #define DECISION_THRESHOLD (0.45f)
@@ -61,12 +61,12 @@ int raw_feature_get_data(size_t offset, size_t length, float *out_ptr) {
 void print_inference_result(ei_impulse_result_t result) {
 
     // Print how long it took to perform inference
-    /*
+    
     ei_printf("Timing: DSP %d ms, inference %d ms, anomaly %d ms\r\n",
             result.timing.dsp,
             result.timing.classification,
             result.timing.anomaly);
-    */
+    
 
     ei_printf("Predictions:\r\n");
     for (uint16_t i = 0; i < EI_CLASSIFIER_LABEL_COUNT; i++)
@@ -95,7 +95,7 @@ extern "C" int app_main()
 
     ei_impulse_result_t result = {nullptr};
 
-    ei_printf("Application satrted!\n");
+    ei_printf("Application started!\n");
 
     while (true)
     {
