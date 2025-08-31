@@ -6,6 +6,8 @@
 
 **Motion Quality Tracker** is a wearable system designed to provide **real-time feedback** on exercise performance using motion analysis. It aims to help users perform exercises with correct form, minimizing injury risks and maximizing training efficiency. The solution leverages embedded AI for instant evaluation of movement quality.
 
+🎥 [YouTube demo ](https://youtu.be/wWR3Q_hF_YM)(Croatian)
+
 ---
 
 ## Problem Statement
